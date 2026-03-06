@@ -1,12 +1,15 @@
 <?php
 
-$con = new PDO("mysql:host=localhost;dbname=sahmax","root","");
+$host = 'localhost';
+$db   = 'sahmax';
+$user = 'sahmax_user';
+$pass = 'Alabastar08160$';
+$charset = 'utf8mb4';
 
-// Check connection
-//if ($con) {
-//  echo "";
-//}else{
- // echo"";	
-//}
-
-?>
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+try {
+     $con = new PDO($dsn, $user, $pass);
+     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (\PDOException $e) {
+     echo "Database connection failed: " . $e->getMessage();
+}
