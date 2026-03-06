@@ -17,7 +17,7 @@ include_once("pdoconfig.php");
   
     // Put secret key here, which we get
     // from google console
-    $secret_key = '6Le-VWQoAAAAAOj7-XM9vdlTAkhZuJCJstIytnMk';
+    $secret_key = '';
   
     // Hitting request to the URL, Google will
     // respond with success or error scenario
