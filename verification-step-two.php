@@ -1,0 +1,661 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+	header("location:./login");
+}
+?>
+
+
+<?php 
+
+function escape($string){
+   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+?>
+
+<?php $email = $_SESSION['email']; ?>
+
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, shrink-to-fit=no, user-scalable=yes">
+    <meta name="handheldfriendly" content="yes">
+    <meta name="description" content="Account profile, details, information...">
+    <meta name="keywords" content="dashboard, user">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Account Verification - Step 2 of 3</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assets/js/config.js"></script>
+
+  <style>
+    .dark-mode {
+      background: #000;
+      filter: invert(1) hue-rotate(180deg)
+    }
+   </style>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+          <div class="app-brand demo">
+            <a href="userdashboard" class="app-brand-link">              
+            <span class="mb-0 site-logo"><span class="h2 mb-0">Sahmax<span class="text-info"  style="font-size:25px">Optimum</span></span></span>
+            </a>
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+              <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
+          </div>
+
+        <?php
+				
+        include_once("pdoconfig.php");
+
+        // $email = $_SESSION['email'];
+
+        $stmt = $con->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute(array('email' => $email));
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+        {
+        $Validate_id = $row['id'];
+        $id = escape($Validate_id);
+
+        $Validate_firstname = $row['firstname'];	
+        $firstname = escape($Validate_firstname);
+        
+        $Validate_middlename = $row['middlename'];	
+        $middlename = escape($Validate_middlename);
+
+        $Validate_surname = $row['surname'];	
+        $surname = escape($Validate_surname);
+
+        $Validate_email = $row['email'];	
+        $email = escape($Validate_email);
+        
+        $Validate_phone_number = $row['phone_number'];	
+        $phone_number = escape($Validate_phone_number);
+        
+        $Validate_city = $row['city'];	
+        $city = escape($Validate_city);
+        
+        $Validate_state = $row['state'];	
+        $state = escape($Validate_state);
+        
+        $Validate_address = $row['address'];	
+        $address = escape($Validate_address);
+        
+        $Validate_dob = $row['date_of_birth'];	
+        $dob = escape($Validate_dob);
+        
+        $Validate_profile_pic = $row['profile_img'];	
+        $profile_pic = escape($Validate_profile_pic);
+        
+        $occupation = escape($row['occupation']);
+
+        $email_status = escape($row['is_verified']);
+            
+        $time =  $row['created_at'];
+        $timestamp = strtotime($time);
+        $formatted_time = date('d F Y', $timestamp);
+                    
+        }
+
+        ?>
+
+
+          <div class="menu-inner-shadow"></div>
+
+          <ul class="menu-inner py-1">
+            <!-- Dashboard -->
+            <li class="menu-item">
+              <a href="userdashboard" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+
+
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Account Verification</span>
+            </li>
+            <!-- Layouts -->
+            <li class="menu-item active">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+               <i class="bx bx-user me-2"></i>
+                <div data-i18n="Layouts">My profile</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <!--<a href="layouts-without-menu.html" class="menu-link">-->
+                  <a href="myprofile" class="menu-link">
+                    <div data-i18n="Without menu">Profile details</div>
+                  </a>
+                </li>
+                <li class="menu-item active">
+                  <a href="verification" class="menu-link">
+                    <div data-i18n="Without navbar">Verification</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Account Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Account Settings</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="account-settings.php" class="menu-link">
+                    <div data-i18n="Account">Account</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                <div data-i18n="Authentications">Authentications</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="change-password.php" class="menu-link">
+                    <div data-i18n="Basic">Change Password</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="forgot-password.php" class="menu-link">
+                    <div data-i18n="Basic">Forgot Password</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <div data-i18n="Misc">Network status</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="javascript:void();" class="menu-link">
+                    <div data-i18n="Error" style="color:green">This site has no network issues</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+           
+            <!-- Network status -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Help</span></li>
+            <li class="menu-item">
+              <a
+                href="mailto:support@sahmax.com"
+                class="menu-link"
+              >
+                <i class="menu-icon tf-icons bx bx-support"></i>
+                <div data-i18n="Support">Support</div>
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                  />
+                </div>
+              </div>
+              <!-- /Search -->
+
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+                <li class="nav-item lh-1 me-3">
+                  <a href="account-settings.php"
+                    data-icon="octicon-star" 
+                    data-size="large"
+                    data-show-count="true"
+                    aria-label="Star themeselection/sahmaxoptimum-html-admin-template-free on GitHub">
+                    <span class="" style="text-transform:capitalize">Welcome <?php echo escape($firstname); ?></span></a>
+                </li>
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img src="<?php echo "$profile_pic" ?>" alt class="w-px-40 rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar avatar-online">
+                             <img src="<?php echo "$profile_pic" ?>" alt class="w-px-40 rounded-circle" />
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                        <?php
+                          // Check if user is verified
+                          $verification_status = "0";
+                          $sql = $con->prepare("SELECT verification_status FROM users WHERE email = :email LIMIT 1");
+                          $sql->execute(array('email' => $email));
+                          if($sql->rowCount() > 0){
+                          $row = $sql->fetch(PDO::FETCH_ASSOC);
+                          if ($row['verification_status']==$verification_status){
+                            echo"<span class='fw-semibold d-block' style='text-transform:capitalize'>
+                                $firstname $surname</span>";
+                            echo"<small class='' style='color:#B3BCC5; text-transform:capitalize'>";
+                            echo "Unverified account &#x1F61E;";
+                            echo "</small>";
+                          } else {
+                            echo"<span class='fw-semibold d-block' style='text-transform:capitalize'>
+                                $firstname $surname <img src='images/verification-badge.png' style='width:11px;'></span>";
+                            echo"<small class='' style='color:#B3BCC5; text-transform:capitalize'>";
+                            echo "Verified account";
+                            echo "</small>";
+                          }
+                        }
+                        
+                        ?> 
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="myprofile">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="account-settings">
+                        <i class="bx bx-cog me-2"></i>
+                        <span class="align-middle">Settings</span>
+                      </a>
+                    </li>
+                    <!--<li>
+                      <a class="dropdown-item" href="account-notifications">
+                        <span class="d-flex align-items-center align-middle">
+                          <i class="flex-shrink-0 bx bx-bell me-1c me-1"></i>
+                          <span class="flex-grow-1 align-middle">Notifications</span>
+                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">0</span>
+                        </span>
+                      </a>
+                    </li>-->
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="logout">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Log Out</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+          <!-- / Navbar -->
+
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Verification /</span> ID Card</h4>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                    <li class="nav-item">
+                      <a class="nav-link" href="account-settings"><i class="bx bx-cog me-1"></i> Account</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="myprofile"
+                        ><i class="bx bx-user me-1"></i> Profile</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="javascript:(0);"
+                        ><i class="bx bx-user-circle"></i> Verification</a
+                      >
+                    </li>
+                  </ul>  
+                  
+                  <div class="card mb-4">
+                      
+                        <?php $reason = array("emptydocument=true" => "<div class='card-body alert alert-danger' style='color:red;'>
+                        <center>Submit back of your verification Document!</center></div>"); 
+                        if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("emptydocument_type=true" => "<div class='card-body alert alert-danger' style='color:red;'>
+                        <center>Select document type!</center></div>"); 
+                        if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("invaliddocument_type=true" => "<div class='card-body alert alert-danger' style='color:red;'>
+                        <center>Upload valid images. Only PNG and JPEG are allowed!</center></div>"); 
+                        if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("documentsize_type=true" => "<div class='card-body alert alert-danger' style='color:red;'>
+                        <center>Image size exceeds 10MB!</center></div>"); 
+                        if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("unknownerror=true" => "<div class='card-body alert alert-danger' style='color:red;'>
+                        <center>Unknown error occured!</center></div>"); 
+                        if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("id_card_deleted=true" => "<div class='card-body alert alert-success' style='color:#008000;'>
+                        <center>Review cancelled! Go back a page for changes to take effect and resubmit your documents</center></div>"); 
+                        if(isset($_GET['deleted'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("id_card_deletedFailed=true" => "<div class='card-body alert alert-danger' style='color:#FF0000;'>
+                        <center>Failed to cancel review! Unknown error occured</center></div>"); 
+                        if(isset($_GET['deletedFailed'])) echo $reason[$_GET['reason']]; ?>
+                        
+                        <?php $reason = array("documentreceived=true" => "<div class='card-body alert alert-success' style='color:#008000;'>
+                        <center>Document Front Received, Proceed to document back submission.</center></div>"); 
+                        if(isset($_GET['verificationStepOneComplete'])) echo $reason[$_GET['reason']]; ?> 
+                        
+                        <?php 
+                        
+                        //get user ID from db
+                        $sql = "SELECT id FROM users WHERE email = :email LIMIT 1";
+                        $query = $con->prepare($sql);
+                        $query->execute(array('email' => $email));
+                        $row = $query->fetch(PDO::FETCH_ASSOC);
+                        $user_id = $row['id'];
+                        
+                        $sql = $con->prepare("SELECT user_id,verification_stage FROM verification_request WHERE user_id = :user_id");
+                        $sql->execute(array('user_id' => $user_id));
+                        if($sql->rowCount() > 0){
+                        $row = $sql->fetch(PDO::FETCH_ASSOC);
+                        if($row['verification_stage']=="1"){
+                            echo"";
+                        }elseif($row['verification_stage']=="2"){ 
+                            echo""; 
+                        }elseif($row['verification_stage']=="3"){
+                            echo"<div class='card-body alert alert-info'>
+                            <center>You did not finish your verification process! <a href='verification-step-three?uid=$id'>Continue from where you stopped
+                            <br><button class='btn btn-outline-primary btn-sm'>Continue</button></a> or 
+                            <a href='cancel-review?uid=$id'>Cancel Review to Resubmit your Documents
+                            <button class='btn btn-outline-primary btn-sm'>Cancel</button></a></center></div>";
+                        }elseif($row['verification_stage']=="4"){
+                            echo"<div class='card-body alert alert-info'>
+                            <center>Your verification is still under review! <a href='cancel-review?uid=$id'>Cancel Review to Resubmit your Documents
+                            <button class='btn btn-primary btn-sm'>Cancel</button></a></center></div>";
+                        }else{
+                            die(header("location:./verification?validationFailed=true&reason=requestpending=true")); 
+                        }
+                        }
+                        
+                        ?>
+                        
+                        <?php //$reason = array("requestpending=true" => "<div class='card-body alert alert-info'>
+                        //<center>Your verification is still under review! <a href='cancel-review?uid=$id'>Cancel Review to Resubmit your Documents
+                        //<button class='btn btn-primary btn-sm'>Cancel</button></a></center></div>"); 
+                        //if(isset($_GET['validationFailed'])) echo $reason[$_GET['reason']]; ?>
+
+                          <?php
+                            
+                          // Check if user has data in SSN column
+                          $date_of_birth = "";
+                          $sql = $con->prepare("SELECT date_of_birth FROM users WHERE email = :email LIMIT 1");
+                          $sql->execute(array('email' => $email));
+                          if($sql->rowCount() > 0){
+                          $row = $sql->fetch(PDO::FETCH_ASSOC);
+                          if ($row['date_of_birth']==$date_of_birth){
+                            echo "<h5 class='card-header'>Account Verification</h5>
+                          <div class='card-body'>
+                          <div class='d-flex align-items-start align-items-sm-center gap-4 alert alert-danger'>
+                           You are yet to complete your account registration. Fill your info before you can proceed to verification.
+                        <div class='button-wrapper'>
+                        </div>
+                      </div>
+                      <center>
+                      <a href='registration-form'><div class='btn btn-sm btn-outline-primary'>Fill your info</div></a>
+                      </center>
+                       </div>";
+                          }else{
+                        
+                          $verification_status = "0";
+                          $sql = $con->prepare("SELECT verification_status FROM users WHERE email = :email LIMIT 1");
+                          $sql->execute(array('email' => $email));
+                          if($sql->rowCount() > 0){
+                          $row = $sql->fetch(PDO::FETCH_ASSOC);
+                          if ($row['verification_status']==$verification_status){
+                            echo "<div class='card mb-4'>
+                            <h5 class='card-header'><center>Step 2 of 3 - Back of ID card</center></h5>
+                            <div class='alert alert-info' style='margin-top:-20px'>
+                            <center>&ast;You already submitted your ID front! Submit ID back and proceed.</center></div>
+                        <div class='card-body'>
+                          <div class='d-flex align-items-start align-items-sm-center gap-4'>
+                            <img src='images/selfie_with_ID.png' alt='Selfie with ID sample' class='d-block rounded' height='100' width='100' id='uploadedAvatar'
+                            />
+                        <div class='button-wrapper'>
+                        <form action='verification-validation-step-two' method='POST' enctype='multipart/form-data'>
+                           <div class='margin' style='margin-top:5px'></div>
+                           <label class='form-label' for='document'>&ast;Submit back of ID</label><br>
+                          <label for='upload' class='btn btn-primary me-2 mb-4' tabindex='0' style='margin-top:-20p'>
+                            <span class='d-none d-sm-block'>Pick Document</span>
+                            <i class='bx bx-camera d-block d-sm-none'></i>
+                            <input
+                              type='file'
+                              id='upload'
+                              class='account-file-input'
+                              hidden
+                              accept='image/png, image/jpeg'
+                              name='file-input' capture='user'/>
+                          </label>
+                          
+                          <button type='button' class='btn btn-outline-secondary account-image-reset mb-4'>
+                            <i class='bx bx-reset d-block d-sm-none'></i>
+                            <span class='d-none d-sm-block'>Reset</span>
+                          </button>
+                          <button type='submit' name='upload' class='btn btn-outline-primary mb-4'>
+                            <i class='bx bx-upload d-block d-sm-none'></i>
+                            <span class='d-none d-sm-block'>Submit</span>
+                          </button>
+                          </form>
+
+                        </div>
+                      </div>
+                    </div>";
+                          }else{
+                            echo"<h5 class='card-header' style='color:#008000'><center>Account Verified</center></h5>
+                            <center><img src='assets/img/illustrations/verification.png' alt='Verification' width='100' class='img-fluid'></center>";
+                          }
+                          }
+                          }
+                          } 
+                        
+                        ?>                          
+                      
+                    <!-- Failed to update password error message -->
+                    <?php if(isset($passtooshortmessage)){ echo $passtooshortmessage; }else{ echo "";} ?>
+
+                    <hr class="my-0" />
+                    
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <form>
+                        <div class="row">
+                          <center><p>This account was created <?php echo "$formatted_time"; ?></p></center>
+                      </form>
+                      </div>
+                      </div>
+                    </div>
+                    <!-- /Account -->
+                  </div>
+              
+                </div>
+              </div>
+            </div>
+            
+            <!-- / Content -->
+
+            <!-- JS script to turn on dark mode -->
+            <script>
+
+            // On page load set the theme.
+          (function() {
+            let onpageLoad = localStorage.getItem("theme") || "";
+            let element = document.body;
+            element.classList.add(onpageLoad);
+            document.getElementById("theme").textContent =
+              localStorage.getItem("theme") || "light";
+          })();
+
+          function themeToggle() {
+            let element = document.body;
+            element.classList.toggle("dark-mode");
+
+            let theme = localStorage.getItem("theme");
+            if (theme && theme === "dark-mode") {
+              localStorage.setItem("theme", "");
+            } else {
+              localStorage.setItem("theme", "dark-mode");
+            }
+
+            document.getElementById("theme").textContent = localStorage.getItem("theme");
+          }
+
+          </script>
+
+        <!--<div class="buy-now" onclick="themeToggle()">
+        <div class="btn btn-danger btn-buy-now"><i class="bx bx-moon me-2"></i>Dark Mode</div>
+        </div>-->
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  Copyright &copy; 
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  </script>, Sahmax Optimum     
+                </div>
+                <div>                 
+                  <a href="javascript:void(0);" class="footer-link me-4">Zone 9, Beside CAC church, Dada Estate, Osogbo</a>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="../assets/js/pages-account-settings-account.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
