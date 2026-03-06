@@ -19,7 +19,6 @@ if(isset($_SESSION['email'])){
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <script src="https://www.google.com/recaptcha/api.js"></script>
     <title>Login | Sahmax Optimum Nigeria Limted</title>
 
     <!-- Font Icon -->
@@ -132,13 +131,7 @@ return output;
                             <div class="form-group">
                                 <label for="termsnconditions" class="label-agree-term"><span><span></span></span>
                                 <a href="forgot-password" class="term-service">Reset password</a></label>
-                            </div>
-                            
-                            <!-- div to show reCAPTCHA -->
-                            <div class="g-recaptcha" data-sitekey="6Le-VWQoAAAAAOoPNhIzOh_9orqHUN1m7g3UhhOI"></div> 
-                            <br>
-                            <?php $reason = array("reCAPTACHA_issue=true" => "<p style='color:red; font-size:13px; margin-top: -25px;'>Error in Google reCAPTACHA!</p>"); 
-                            if(isset($_GET['loginFailed'])) echo $reason[$_GET['reason']]; ?>
+                            </div>                            
                     
                             <div class="form-group form-button">
                                 <input type="submit" name="login" id="signin" class="form-submit" value="Continue"/>
