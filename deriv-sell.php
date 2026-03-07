@@ -640,67 +640,13 @@ function escape($string){
                             	$stmt1->execute();
                     
                                 //Send email notification to admin if order placed		
-                                $message = '<html><body style="background-color:#e2e1e0;font-family: Open Sans, sans-serif;font-size:100%;font-weight:400;line-height:1.4;color:#000;">';
-                                $message .= '<table style="max-width:670px;margin:50px auto 10px;background-color:#fff;padding:50px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);-moz-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24); border-top: solid 10px green;">';
-                                $message .= '<thead>';
-                                $message .= '<tr>';
-                                $message .= '<th style="text-align:left;"><img style="max-width: 150px;" src="https://www.sahmax.com/images/android-chrome-512x512.png" alt="Sahmax Optimum Logo"></th>';
-                                $message .= "<th style='text-align:right;font-weight:400;'>$date</th>";
-                                $message .= '</tr>';
-                                $message .= '</thead>';
-                                $message .= '<tbody>';
-                                $message .= '<tr>';
-                                $message .= '<td style="height:35px;"></td>';
-                                $message .= '</tr>';
-                                $message .= '<tr>';
-                                $message .= '<td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">';
-                                $message .= "<p style='font-size:14px;margin:0 0 6px 0;'><span style='font-weight:bold;display:inline-block;min-width:150px'>Order type</span> Deriv USD sell</p>";
-                                $message .= "<p style='font-size:14px;margin:0 0 6px 0;'><span style='font-weight:bold;display:inline-block;min-width:150px'>Order status</span><b style='color:green;font-weight:normal;margin:0'>Active</b></p>";
-                                $message .= "<p style='font-size:14px;margin:0 0 6px 0;'><span style='font-weight:bold;display:inline-block;min-width:146px'>Order ID</span> $order_id</p>";
-                                $message .= "<p style='font-size:14px;margin:0 0 0 0;'><span style='font-weight:bold;display:inline-block;min-width:146px'>Order amount</span> &#36;$amount_in_naira</p>";
-                                $message .= "<p style='font-size:14px;margin:0 0 0 0;'><span style='font-weight:bold;display:inline-block;min-width:146px'>Order amount</span> &#8358;$formatted_amount_in_usd</p>";
-                                $message .= "</td>";
-                                $message .= "</tr>";
-                                $message .= "<tr>";
-                                $message .= "<td style='height:35px;'></td>";
-                                $message .= "</tr>";
-                                $message .= "<tr>";
-                                $message .= "<td style='width:50%;padding:20px;vertical-align:top'>";
-                                $message .= "<p style='margin:0 0 10px 0;padding:0;font-size:14px;text-transform:capitalize'><span style='display:block;font-weight:bold;font-size:13px'>Customer Name</span> $firstname $surname</p>";
-                                $message .= "<p style='margin:0 0 10px 0;padding:0;font-size:14px;text-transform:capitalize'><span style='display:block;font-weight:bold;font-size:13px'>What to do?</span> Confirm payment </p>";
-                                $message .= '</td><td style="width:50%;padding:20px;vertical-align:top">';
-                                $message .= "<p style='margin:0 0 10px 0;padding:0;font-size:14px;'><span style='display:block;font-weight:bold;font-size:13px;'>Date</span> $date</p>";
-                                $message .= "<p style='margin:0 0 10px 0;padding:0;font-size:14px;'><span style='display:block;font-weight:bold;font-size:13px;'>Time</span> $time</p>";
-                                $message .= "</td></tr>";
-                                $message .= "<tr><td colspan='2' style='padding:15px;'>";
-                                $message .= '</tbody>
-                                            <tfooter style="margin-bottom:-40px; margin-top:-30px">
-                                              <tr>
-                                                <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
-                                                  <strong style="display:block;margin:0 0 10px 0;">Regards,<br>Support<br><a href="https://sahmax.com">https://www.sahmax.com/</a></strong>  
-                                                </td>
-                                              </tr>
-                                            </tfooter>
-                                          </table>';
-                                $message .= '</body></html>';
-                    			$ehead = "MIME-Version: 1.0" . "\r\n";
-                    			$ehead.= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
-                    			$ehead.= "From: Sahmax Optimum <support@sahmax.com>\r\n".
-                    					 "Reply-To: noreply@sahmax.com\r\n" .
-                    					 "X-Mailer: PHP/" . phpversion();
-                    			 
-                    			$adminemail = "sulaimansaheedadekunle@gmail.com";
-                    			$subj = "Order Marked Paid ($formatted_amount_in_usd Deriv USD Withdrawal Order)";
-                    			$mailsend=mail("$adminemail","$subj","$message","$ehead");
-                    	        
-                    	        if ($mailsend) {
-                                   // CALL MODAL HERE IF ORDER_PLACED
+     
+                                // CALL MODAL HERE IF ORDER_PLACED
                             		echo '<script type="text/javascript">
                             			$(document).ready(function(){
                             				$("#paidModal").modal("show");
                             			});
                             		</script>';
-                                }
             
                             } else {
                                 
